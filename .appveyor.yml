@@ -222,7 +222,7 @@ for:
     - cd ${TKDND_HOME}
     - export OLD_HOME=${HOME}
     - export HOME=${TKDND_HOME}
-    - bash macosx/wrongbrew.sh install --skip-recommended tcl-tk@9
+    - bash macosx/wrongbrew.sh install tcl-tk@9
     - export HOME=${OLD_HOME}
     - export TCL_VERSION=`echo 'puts [info tclversion]' | tclsh`
     - export BUILD_FILENAME_TAG="-macOS-tcl${TCL_VERSION}-${PLATFORM_CPU_ARCH}-${PLATFORM}-${PLATFORM_OS_VERSION}"
