@@ -216,10 +216,14 @@ for:
 
   install:
     - export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+    - export HOMEBREW_NO_INSTALL_UPGRADE=1
     - brew install gnu-tar
     - brew install tcl-tk@9
     - cd ${TKDND_HOME}
-    - bash macosx/wrongbrew.sh install tcl-tk@9
+    - export OLD_HOME=${HOME}
+    - export HOME=${TKDND_HOME}
+    - bash macosx/wrongbrew.sh install --ignore-dependencies tcl-tk@9
+    - export HOME=${OLD_HOME}
     - export TCL_VERSION=`echo 'puts [info tclversion]' | tclsh`
     - export BUILD_FILENAME_TAG="-macOS-tcl${TCL_VERSION}-${PLATFORM_CPU_ARCH}-${PLATFORM}-${PLATFORM_OS_VERSION}"
     - export BUILD_FILENAME_TAG_ARM="-macOS-tcl${TCL_VERSION}-arm64-${PLATFORM}-${PLATFORM_OS_VERSION}"
