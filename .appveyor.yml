@@ -220,13 +220,6 @@ for:
     - export HOMEBREW_NO_INSTALL_UPGRADE=1
     - brew install gnu-tar
     - brew install tcl-tk@9
-    - cd ${TKDND_HOME}
-#    - export OLD_HOME=${HOME}
-#    - export HOME=${TKDND_HOME}
-#    - bash macosx/wrongbrew.sh install tcl-tk@9
-#    - export HOME=${OLD_HOME}
-    - brew fetch --force --bottle-tag=arm64_${PLATFORM_OS} tcl-tk@9
-    - brew install $(brew --cache --bottle-tag=arm64_${PLATFORM_OS} tcl-tk@9)
     - export TCL_VERSION=`echo 'puts [info tclversion]' | tclsh`
     - export BUILD_FILENAME_TAG="-macOS-tcl${TCL_VERSION}-${PLATFORM_CPU_ARCH}-${PLATFORM}-${PLATFORM_OS_VERSION}"
     - export BUILD_FILENAME_TAG_ARM="-macOS-tcl${TCL_VERSION}-arm64-${PLATFORM}-${PLATFORM_OS_VERSION}"
@@ -250,6 +243,13 @@ for:
 
     ## Cross-compile for ARM...
     - cd ${TKDND_HOME}
+#    - export OLD_HOME=${HOME}
+#    - export HOME=${TKDND_HOME}
+#    - bash macosx/wrongbrew.sh install tcl-tk@9
+#    - export HOME=${OLD_HOME}
+    ## Re-install ARM Tcl/Tk...
+    - brew fetch --force --bottle-tag=arm64_${PLATFORM_OS} tcl-tk@9
+    - brew reinstall $(brew --cache --bottle-tag=arm64_${PLATFORM_OS} tcl-tk@9)
 #   - CC="clang -march=arm" CFLAGS= CXX="clang++ -march=arm" CXXFLAGS= lhelper create lite-xl-arm -n
     - export CC="clang -arch arm64"
     - export CFLAGS=
