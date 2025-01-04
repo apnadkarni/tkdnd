@@ -219,29 +219,47 @@ for:
     - brew install tcl-tk
     - export TCL_VERSION=`echo 'puts [info tclversion]' | tclsh`
     - export BUILD_FILENAME_TAG="-macOS-tcl${TCL_VERSION}-${PLATFORM_CPU_ARCH}-${PLATFORM}-${PLATFORM_OS_VERSION}"
+    - export BUILD_FILENAME_TAG_ARM="-macOS-tcl${TCL_VERSION}-arm64-${PLATFORM}-${PLATFORM_OS_VERSION}"
     - cd ${TKDND_HOME}
     - export TKDND_VERSION=`cat ${TKDND_HOME}/VERSION`
     - echo ${TKDND_VERSION}
     - export TKDND_RUNTIME=${TKDND_HOME}/cmake/runtime
     - export FILE_TO_UPLOAD=${TKDND_HOME}/tkdnd-${TKDND_VERSION}${BUILD_FILENAME_TAG}.tgz
     - echo ${FILE_TO_UPLOAD}
+    - export FILE_TO_UPLOAD_ARM=${TKDND_HOME}/tkdnd-${TKDND_VERSION}${BUILD_FILENAME_TAG_ARM}.tgz
+    - echo ${FILE_TO_UPLOAD_ARM}
+
 
   build_script:
     - echo "Build for macOS"
     - cd ${TKDND_HOME}
     - ./configure --prefix=${TKDND_RUNTIME} --exec-prefix=${TKDND_RUNTIME} ${CONFIGURE_ARGS} && make && make test
     - make install
+    - cd ${TKDND_RUNTIME}/lib && tar -czvf ${FILE_TO_UPLOAD} tkdnd${TKDND_VERSION} && rm -rf tkdnd${TKDND_VERSION}
+    ## Cross-compile for ARM...
+    - cd ${TKDND_HOME}
+#   - CC="clang -march=arm" CFLAGS= CXX="clang++ -march=arm" CXXFLAGS= lhelper create lite-xl-arm -n
+    - export CC="clang -march=arm"
+    - export CFLAGS=
+    - export CXX="clang++ -march=arm"
+    - export CXXFLAGS=
+    - ./configure --prefix=${TKDND_RUNTIME} --exec-prefix=${TKDND_RUNTIME} ${CONFIGURE_ARGS} && make && make test
+    - make install
+    - cd ${TKDND_RUNTIME}/lib && tar -czvf ${FILE_TO_UPLOAD_ARM} tkdnd${TKDND_VERSION} && rm -rf tkdnd${TKDND_VERSION}
 
   after_build:
-    - echo `pwd`
-    - cd ${TKDND_RUNTIME}/lib && tar -czvf ${FILE_TO_UPLOAD} tkdnd${TKDND_VERSION}
     - cd ${TKDND_HOME}
     - echo ${FILE_TO_UPLOAD}
+    - echo ${FILE_TO_UPLOAD_ARM}
 
   artifacts:
     - path: '*.tgz'
       type: tgz
       name: tkdnd-${TKDND_VERSION}${BUILD_FILENAME_TAG}.tgz
+
+    - path: '*.tgz'
+      type: tgz
+      name: tkdnd-${TKDND_VERSION}${BUILD_FILENAME_TAG_ARM}.tgz
   
   # https://github.com/forexample/github-binary-release
   # git tag tkdnd-release-test-v2.9.2

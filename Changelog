@@ -1,3 +1,6 @@
+2025-01-04 Petasis George  <petasis@iit.demokritos.gr>
+        * win/OleDND.h: Improved support for Tcl 9. (Pull request by Github
+	user apnadkarni - https://github.com/petasis/tkdnd/pull/72).
 2025-01-02 Petasis George  <petasis@iit.demokritos.gr>
         * TkDND 2.9.5 has been released.
 
