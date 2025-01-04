@@ -216,7 +216,8 @@ for:
 
   install:
     - brew install gnu-tar
-    - brew install tcl-tk
+    - brew install tcl-tk@9
+    - arch -arm64 brew install tcl-tk@9
     - export TCL_VERSION=`echo 'puts [info tclversion]' | tclsh`
     - export BUILD_FILENAME_TAG="-macOS-tcl${TCL_VERSION}-${PLATFORM_CPU_ARCH}-${PLATFORM}-${PLATFORM_OS_VERSION}"
     - export BUILD_FILENAME_TAG_ARM="-macOS-tcl${TCL_VERSION}-arm64-${PLATFORM}-${PLATFORM_OS_VERSION}"
