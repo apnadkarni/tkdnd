@@ -209,6 +209,7 @@ for:
     - if [[ "$PLATFORM" == "x64" ]]; then export PLATFORM_CPU_ARCH="x86_64"; fi
     - export PLATFORM_CPU_ARCH=`uname -m`
     - export PLATFORM_OS_VERSION=`sw_vers -productVersion`
+    - export PLATFORM_OS=$(cat '/System/Library/CoreServices/Setup Assistant.app/Contents/Resources/en.lproj/OSXSoftwareLicense.rtf' |grep 'SOFTWARE LICENSE AGREEMENT FOR ' | awk -F ' FOR ' '{print $2}' | awk -F 'OS X |macOS ' '{print $2}' | tr '[:upper:]' '[:lower:]' | awk -F '\' '{print $1}')
     - export PLATFORM_MACHINE=`machine`
     - export CONFIGURE_ARGS=""
     - export TKDND_HOME=`pwd`
@@ -220,10 +221,12 @@ for:
     - brew install gnu-tar
     - brew install tcl-tk@9
     - cd ${TKDND_HOME}
-    - export OLD_HOME=${HOME}
-    - export HOME=${TKDND_HOME}
-    - bash macosx/wrongbrew.sh install tcl-tk@9
-    - export HOME=${OLD_HOME}
+#    - export OLD_HOME=${HOME}
+#    - export HOME=${TKDND_HOME}
+#    - bash macosx/wrongbrew.sh install tcl-tk@9
+#    - export HOME=${OLD_HOME}
+    - brew fetch --force --bottle-tag=arm64_${PLATFORM_OS} tcl-tk@9
+    - brew install $(brew --cache --bottle-tag=arm64_${PLATFORM_OS} tcl-tk@9)
     - export TCL_VERSION=`echo 'puts [info tclversion]' | tclsh`
     - export BUILD_FILENAME_TAG="-macOS-tcl${TCL_VERSION}-${PLATFORM_CPU_ARCH}-${PLATFORM}-${PLATFORM_OS_VERSION}"
     - export BUILD_FILENAME_TAG_ARM="-macOS-tcl${TCL_VERSION}-arm64-${PLATFORM}-${PLATFORM_OS_VERSION}"
