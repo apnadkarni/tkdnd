@@ -10,8 +10,8 @@ environment:
   TCL_VERSION: 8.6
 
 image:
-# - Ubuntu
-# - Visual Studio 2022
+  - Ubuntu
+  - Visual Studio 2022
   - macos-sonoma
 #  - macOS
 
@@ -250,7 +250,6 @@ for:
     ## Re-install ARM Tcl/Tk...
     - brew fetch --force --bottle-tag=arm64_${PLATFORM_OS} tcl-tk@9
     - brew reinstall $(brew --cache --bottle-tag=arm64_${PLATFORM_OS} tcl-tk@9)
-#   - CC="clang -march=arm" CFLAGS= CXX="clang++ -march=arm" CXXFLAGS= lhelper create lite-xl-arm -n
     - export CC="clang -arch arm64"
     - export CFLAGS=
     - export CXX="clang++ -arch arm64"
