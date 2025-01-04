@@ -236,18 +236,20 @@ for:
     - ./configure --prefix=${TKDND_RUNTIME} --exec-prefix=${TKDND_RUNTIME} ${CONFIGURE_ARGS} && make && make test
     - make install
     - cd ${TKDND_RUNTIME}/lib && tar -czvf ${FILE_TO_UPLOAD} tkdnd${TKDND_VERSION} && rm -rf tkdnd${TKDND_VERSION}
+    - cd ${TKDND_HOME} && make clean && make distclean
+
     ## Cross-compile for ARM...
     - cd ${TKDND_HOME}
-    - make clean
 #   - CC="clang -march=arm" CFLAGS= CXX="clang++ -march=arm" CXXFLAGS= lhelper create lite-xl-arm -n
     - export CC="clang -arch arm64"
     - export CFLAGS=
     - export CXX="clang++ -arch arm64"
     - export CXXFLAGS=
-    - export CONFIGURE_ARGS="--target=aarch64"
+    - export CONFIGURE_ARGS="--host=aarch64 --target=aarch64"
     - ./configure --prefix=${TKDND_RUNTIME} --exec-prefix=${TKDND_RUNTIME} ${CONFIGURE_ARGS} && make && make test
     - make install
     - cd ${TKDND_RUNTIME}/lib && tar -czvf ${FILE_TO_UPLOAD_ARM} tkdnd${TKDND_VERSION} && rm -rf tkdnd${TKDND_VERSION}
+    - cd ${TKDND_HOME} && make clean && make distclean
 
   after_build:
     - cd ${TKDND_HOME}
