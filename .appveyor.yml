@@ -10,8 +10,8 @@ environment:
   TCL_VERSION: 8.6
 
 image:
-  - Ubuntu
-  - Visual Studio 2022
+# - Ubuntu
+# - Visual Studio 2022
   - macos-sonoma
 #  - macOS
 
@@ -239,9 +239,9 @@ for:
     ## Cross-compile for ARM...
     - cd ${TKDND_HOME}
 #   - CC="clang -march=arm" CFLAGS= CXX="clang++ -march=arm" CXXFLAGS= lhelper create lite-xl-arm -n
-    - export CC="clang -march=arm"
+    - export CC="clang -arch arm64"
     - export CFLAGS=
-    - export CXX="clang++ -march=arm"
+    - export CXX="clang++ -arch arm64"
     - export CXXFLAGS=
     - ./configure --prefix=${TKDND_RUNTIME} --exec-prefix=${TKDND_RUNTIME} ${CONFIGURE_ARGS} && make && make test
     - make install
